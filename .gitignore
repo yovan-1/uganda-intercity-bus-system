@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+dist
+dist-ssr
+build
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor files
+.vscode
+.idea
+.DS_Store
+*.swp
+*.swo
+
+# Temporary database files
+*.db-journal
