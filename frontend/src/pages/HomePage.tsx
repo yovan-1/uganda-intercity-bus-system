@@ -300,7 +300,7 @@ export const HomePage: React.FC = () => {
                 <label htmlFor="accommodation" className="cursor-pointer select-none">
                   Find my accommodation
                 </label>
-                <span title="Find top university & traveler hotel stays">
+                <span title="Find top city & traveler hotel stays">
                   <Info className="w-3.5 h-3.5 text-blue-700 cursor-pointer flex-shrink-0" />
                 </span>
               </div>
@@ -309,18 +309,18 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* SECTION BELOW HERO: POPULAR BUS CONNECTIONS WITH MATCHING PICTURES */}
-      <div className="space-y-6 text-left pt-4 w-full">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
-          <h2 className="text-xl sm:text-2xl font-semibold text-slate-900">Popular Bus Connections</h2>
-          <span className="text-xs text-blue-800 font-medium font-mono bg-blue-50 px-3 py-1 rounded-full border border-blue-200 w-fit">
+      {/* POPULAR BUS CONNECTIONS WITH MATCHING PICTURES */}
+      <div className="space-y-4 text-left w-full">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Popular Bus Connections</h2>
+          <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full">
             Official Schedules
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
           {[
-            { title: 'Kampala ↔ Mbarara', dist: '280 km', time: '4h 30m', price: 'UGX 30,000', desc: 'Direct luxury coach travel to Kihumuro', img: '/pictures/bus.jpeg' },
+            { title: 'Kampala ↔ Mbarara', dist: '280 km', time: '4h 30m', price: 'UGX 30,000', desc: 'Direct luxury coach travel between Kampala and Mbarara', img: '/pictures/bus.jpeg' },
             { title: 'Kampala ↔ Kabale', dist: '410 km', time: '7h 00m', price: 'UGX 45,000', desc: 'Executive seating & Wi-Fi', img: '/pictures/bus1.jpeg' },
             { title: 'Kampala ↔ Fort Portal', dist: '300 km', time: '5h 00m', price: 'UGX 35,000', desc: 'Daily morning departures', img: '/pictures/bus3.jpeg' },
             { title: 'Kampala ↔ Gulu', dist: '335 km', time: '5h 30m', price: 'UGX 40,000', desc: 'Express highway route', img: '/pictures/bus4.jpeg' },
@@ -359,7 +359,7 @@ export const HomePage: React.FC = () => {
 
       {/* AMENITIES SECTION WITH MATCHING PICTURES */}
       <div className="bg-slate-50 p-4 sm:p-8 rounded-3xl space-y-6 border border-slate-200 w-full">
-        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 text-center">MUST Bus Passenger Amenities</h3>
+        <h3 className="text-lg sm:text-xl font-semibold text-slate-900 text-center">Intercity Bus Passenger Amenities</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
           {/* Free Wi-Fi */}
           <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-3 text-center shadow-sm overflow-hidden flex flex-col justify-between">

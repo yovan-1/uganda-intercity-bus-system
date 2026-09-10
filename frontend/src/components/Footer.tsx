@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
             <div className="w-9 h-9 rounded-xl bg-[#1E3A8A] flex items-center justify-center">
               <Bus className="w-5 h-5 text-white stroke-[2.5]" />
             </div>
-            MUST<span className="text-[#1E3A8A]"> Express</span>
+            UG<span className="text-[#1E3A8A]"> Express</span>
           </div>
           <p className="text-xs text-slate-500 leading-relaxed font-medium">
             Convenient, sustainable, and affordable long-distance bus travel across Uganda.
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 text-xs font-medium text-[#242424]">
             <Mail className="w-4 h-4 text-[#1E3A8A] flex-shrink-0" />
-            <span>se-project@must.ac.ug</span>
+            <span>support@travel.ug</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 pt-2 font-bold font-mono">
             <Globe className="w-4 h-4 text-[#1E3A8A]" />
@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="border-t border-slate-200 bg-slate-50 py-4 text-center text-xs text-slate-500 font-medium">
-        © 2026 MUST Express Bus Network Uganda. All rights reserved. Built with React & Express.
+        © 2026 UG Express Bus Network Uganda. All rights reserved. Built with React & Express.
       </div>
     </footer>
   );

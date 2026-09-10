@@ -120,7 +120,7 @@ model Trip {
 
 model Booking {
   id             String        @id @default(uuid())
-  bookingRef     String        @unique // e.g. MUST-8942-XJ
+  bookingRef     String        @unique // e.g. UG-8942-XJ
   userId         String
   tripId         String
   totalAmountUGX Int

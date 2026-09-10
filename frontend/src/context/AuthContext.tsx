@@ -51,8 +51,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const demoLogin = async (role: Role) => {
     let email = 'passenger@travel.ug';
-    if (role === 'STAFF') email = 'staff@must.ac.ug';
-    if (role === 'ADMIN') email = 'admin@must.ac.ug';
+    if (role === 'STAFF') email = 'staff@travel.ug';
+    if (role === 'ADMIN') email = 'admin@travel.ug';
 
     await login(email, 'Password123!');
   };

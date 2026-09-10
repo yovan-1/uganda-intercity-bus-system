@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { ShieldCheck, UserCheck, Wrench, Sparkles } from 'lucide-react';
+import { ShieldCheck, UserCheck, Wrench } from 'lucide-react';
 import { Role } from '../types';
 
 export const DemoRoleSwitcher: React.FC = () => {
@@ -14,8 +14,7 @@ export const DemoRoleSwitcher: React.FC = () => {
     <div className="bg-white text-[#242424] border-b border-slate-200 px-4 py-2 text-xs sticky top-0 z-50 shadow-sm font-mono">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-[#242424] font-bold">
-          <Sparkles className="w-4 h-4 animate-pulse text-[#1E3A8A]" />
-          <span>MUST Defense Demo Bar:</span>
+          <span>Interactive Demo Bar:</span>
           <span className="text-slate-500 font-normal hidden md:inline">Quick Switch Persona</span>
         </div>
 

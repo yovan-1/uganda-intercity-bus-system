@@ -58,23 +58,34 @@ export const searchTrips = async (req: Request, res: Response) => {
     // Client-side filtering by date if specified
     let filteredTrips = trips;
     if (date) {
-      const searchDate = new Date(date.toString()).toISOString().split('T')[0];
-      filteredTrips = trips.filter((t) => {
+      const searchDateStr = date.toString().trim();
+      const searchDate = new Date(searchDateStr).toISOString().split('T')[0];
+      const exactMatches = trips.filter((t) => {
         const tripDate = new Date(t.departureTime).toISOString().split('T')[0];
         return tripDate === searchDate;
       });
+
+      if (exactMatches.length > 0) {
+        filteredTrips = exactMatches;
+      } else {
+        // Fallback to upcoming scheduled departures from this date onwards
+        filteredTrips = trips.filter((t) => {
+          const tripDate = new Date(t.departureTime).toISOString().split('T')[0];
+          return tripDate >= searchDate;
+        });
+      }
     }
 
     // Filter available seats
     filteredTrips = filteredTrips.filter((t) => t.availableSeats >= passengerCount);
 
-    // Sorting
+    // Sorting (default to earliest departure)
     if (sortBy === 'cheapest') {
       filteredTrips.sort((a, b) => a.priceUGX - b.priceUGX);
-    } else if (sortBy === 'earliest') {
-      filteredTrips.sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime());
     } else if (sortBy === 'shortest') {
       filteredTrips.sort((a, b) => a.route.distanceKm - b.route.distanceKm);
+    } else {
+      filteredTrips.sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime());
     }
 
     return res.json({

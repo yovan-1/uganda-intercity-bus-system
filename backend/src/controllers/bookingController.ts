@@ -75,7 +75,7 @@ export const createBooking = async (req: AuthRequest, res: Response) => {
     // 3. Generate unique booking ref
     const randPart = Math.floor(1000 + Math.random() * 9000);
     const charPart = Math.random().toString(36).substring(2, 4).toUpperCase();
-    const bookingRef = `MUST-${randPart}-${charPart}`;
+    const bookingRef = `UG-${randPart}-${charPart}`;
 
     const totalFare = trip.priceUGX * passengerDetails.length;
 

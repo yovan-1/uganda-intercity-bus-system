@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting MUST Travel Reservation Database Seed...');
+  console.log('🌱 Starting Uganda Intercity Travel Reservation Database Seed...');
 
   // Clean existing tables
   await prisma.ticket.deleteMany({});
@@ -22,8 +22,8 @@ async function main() {
 
   const admin = await prisma.user.create({
     data: {
-      name: 'Dr. Mugisha Admin',
-      email: 'admin@must.ac.ug',
+      name: 'System Administrator',
+      email: 'admin@travel.ug',
       phone: '+256771000001',
       password: passwordHash,
       role: Role.ADMIN,
@@ -33,8 +33,8 @@ async function main() {
 
   const staff = await prisma.user.create({
     data: {
-      name: 'Kigozi Staff Officer',
-      email: 'staff@must.ac.ug',
+      name: 'Terminal Staff Officer',
+      email: 'staff@travel.ug',
       phone: '+256781000002',
       password: passwordHash,
       role: Role.STAFF,
@@ -44,8 +44,8 @@ async function main() {
 
   const customer = await prisma.user.create({
     data: {
-      name: 'Ikayo Emmanuel',
-      email: 'student@must.ac.ug',
+      name: 'Emmanuel Mugisha',
+      email: 'passenger@travel.ug',
       phone: '+256701234567',
       password: passwordHash,
       role: Role.CUSTOMER,
@@ -54,17 +54,17 @@ async function main() {
   });
 
   console.log('✅ Default accounts created:');
-  console.log('   Admin: admin@must.ac.ug / Password123!');
-  console.log('   Staff: staff@must.ac.ug / Password123!');
-  console.log('   Customer: student@must.ac.ug / Password123!');
+  console.log('   Admin: admin@travel.ug / Password123!');
+  console.log('   Staff: staff@travel.ug / Password123!');
+  console.log('   Customer: passenger@travel.ug / Password123!');
 
   // 2. Create Vehicles & Generate Seats
   const vehicleData = [
+    { regNumber: 'UBF 892K', model: 'Scania Touring VIP', operatorName: 'Uganda Coach Express', driverName: 'Tumusiime John', seats: 36 },
     { regNumber: 'UBG 421X', model: 'Scania Marcopolo G7', operatorName: 'Global Coach', driverName: 'Kato Paul', seats: 36 },
     { regNumber: 'UBH 890Y', model: 'Isuzu Luxury Coach', operatorName: 'Link Bus', driverName: 'Okello Denis', seats: 36 },
     { regNumber: 'UBL 102Z', model: 'Volvo B11R VIP', operatorName: 'Jaguar Executive', driverName: 'Mwesigwa Alex', seats: 28 },
-    { regNumber: 'UBK 554W', model: 'Yutong Coach 2024', operatorName: 'Mbarara Express', driverName: 'Tumusiime John', seats: 36 },
-    { regNumber: 'UBJ 773Q', model: 'Scania Touring VIP', operatorName: 'Horizon Executive', driverName: 'Ahebwa Innocent', seats: 36 },
+    { regNumber: 'UBJ 773Q', model: 'Horizon Highliner', operatorName: 'Horizon Executive', driverName: 'Ahebwa Innocent', seats: 36 },
   ];
 
   const createdVehicles = [];
@@ -128,65 +128,83 @@ async function main() {
 
   console.log(`✅ Created ${createdRoutes.length} East African bus routes.`);
 
-  // 4. Create Scheduled Trips
-  const now = new Date();
-  const todayMorning = new Date(now);
-  todayMorning.setHours(7, 0, 0, 0);
+  // 4. Create Scheduled Trips across all routes for 30 days
+  const baseDate = new Date();
+  baseDate.setHours(0, 0, 0, 0);
 
-  const todayNoon = new Date(now);
-  todayNoon.setHours(12, 30, 0, 0);
+  const dailyTemplates = [
+    { rIdx: 0, vIdx: 0, h: 6, m: 30, dur: 4.5, price: 30000 },  // Kampala -> Mbarara
+    { rIdx: 0, vIdx: 1, h: 8, m: 30, dur: 4.5, price: 30000 },
+    { rIdx: 0, vIdx: 2, h: 10, m: 30, dur: 4.5, price: 35000 },
+    { rIdx: 0, vIdx: 0, h: 14, m: 0, dur: 4.5, price: 30000 },
+    { rIdx: 0, vIdx: 1, h: 16, m: 30, dur: 4.5, price: 35000 },
+    { rIdx: 0, vIdx: 2, h: 21, m: 0, dur: 4.5, price: 35000 },
 
-  const todayEvening = new Date(now);
-  todayEvening.setHours(16, 0, 0, 0);
+    { rIdx: 1, vIdx: 0, h: 6, m: 0, dur: 4.5, price: 30000 },   // Mbarara -> Kampala
+    { rIdx: 1, vIdx: 1, h: 9, m: 0, dur: 4.5, price: 30000 },
+    { rIdx: 1, vIdx: 2, h: 13, m: 0, dur: 4.5, price: 35000 },
+    { rIdx: 1, vIdx: 0, h: 17, m: 0, dur: 4.5, price: 30000 },
 
-  const tomorrowMorning = new Date(now);
-  tomorrowMorning.setDate(tomorrowMorning.getDate() + 1);
-  tomorrowMorning.setHours(8, 0, 0, 0);
+    { rIdx: 2, vIdx: 2, h: 7, m: 0, dur: 7.0, price: 45000 },   // Kampala -> Kabale
+    { rIdx: 2, vIdx: 1, h: 11, m: 0, dur: 7.0, price: 45000 },
+    { rIdx: 2, vIdx: 2, h: 15, m: 0, dur: 7.0, price: 50000 },
 
-  const nextWeekMorning = new Date(now);
-  nextWeekMorning.setDate(nextWeekMorning.getDate() + 5);
-  nextWeekMorning.setHours(9, 0, 0, 0);
+    { rIdx: 3, vIdx: 2, h: 6, m: 30, dur: 7.0, price: 45000 },  // Kabale -> Kampala
+    { rIdx: 3, vIdx: 1, h: 11, m: 30, dur: 7.0, price: 45000 },
 
-  const tripTemplates = [
-    { routeIdx: 0, vehicleIdx: 0, time: todayMorning, durationHours: 4.5, price: 30000 }, // Kampala -> Mbarara
-    { routeIdx: 0, vehicleIdx: 1, time: todayNoon, durationHours: 4.5, price: 30000 },    // Kampala -> Mbarara
-    { routeIdx: 0, vehicleIdx: 2, time: todayEvening, durationHours: 4.5, price: 35000 }, // Kampala -> Mbarara VIP
-    { routeIdx: 0, vehicleIdx: 3, time: tomorrowMorning, durationHours: 4.5, price: 30000 },// Kampala -> Mbarara tomorrow
-    { routeIdx: 1, vehicleIdx: 0, time: todayNoon, durationHours: 4.5, price: 30000 },    // Mbarara -> Kampala
-    { routeIdx: 2, vehicleIdx: 2, time: tomorrowMorning, durationHours: 7.0, price: 45000 },// Kampala -> Kabale
-    { routeIdx: 4, vehicleIdx: 1, time: nextWeekMorning, durationHours: 5.0, price: 35000 },// Kampala -> Fort Portal
-    { routeIdx: 5, vehicleIdx: 4, time: tomorrowMorning, durationHours: 5.5, price: 40000 },// Kampala -> Gulu
-    { routeIdx: 6, vehicleIdx: 3, time: todayEvening, durationHours: 2.0, price: 15000 }, // Kampala -> Jinja
+    { rIdx: 4, vIdx: 1, h: 7, m: 30, dur: 5.0, price: 35000 },  // Kampala -> Fort Portal
+    { rIdx: 4, vIdx: 0, h: 13, m: 30, dur: 5.0, price: 35000 },
+
+    { rIdx: 5, vIdx: 4, h: 7, m: 0, dur: 5.5, price: 40000 },   // Kampala -> Gulu
+    { rIdx: 5, vIdx: 4, h: 14, m: 0, dur: 5.5, price: 40000 },
+
+    { rIdx: 6, vIdx: 3, h: 8, m: 0, dur: 2.0, price: 15000 },   // Kampala -> Jinja
+    { rIdx: 6, vIdx: 3, h: 12, m: 0, dur: 2.0, price: 15000 },
+    { rIdx: 6, vIdx: 3, h: 16, m: 30, dur: 2.0, price: 15000 },
+
+    { rIdx: 7, vIdx: 0, h: 8, m: 30, dur: 2.5, price: 20000 },  // Kampala -> Masaka
+    { rIdx: 7, vIdx: 1, h: 14, m: 30, dur: 2.5, price: 20000 },
+
+    { rIdx: 8, vIdx: 2, h: 9, m: 0, dur: 2.5, price: 20000 },   // Mbarara -> Kabale
+    { rIdx: 8, vIdx: 2, h: 15, m: 0, dur: 2.5, price: 20000 },
   ];
 
   const createdTrips = [];
-  for (const t of tripTemplates) {
-    const route = createdRoutes[t.routeIdx];
-    const vehicle = createdVehicles[t.vehicleIdx];
-    const arrTime = new Date(t.time.getTime() + t.durationHours * 60 * 60 * 1000);
 
-    const trip = await prisma.trip.create({
-      data: {
-        routeId: route.id,
-        vehicleId: vehicle.id,
-        departureTime: t.time,
-        arrivalTime: arrTime,
-        priceUGX: t.price,
-        availableSeats: vehicle.totalSeats - 2, // 2 demo booked seats
-        status: TripStatus.SCHEDULED,
-      },
-    });
-    createdTrips.push(trip);
+  for (let day = 0; day < 30; day++) {
+    for (const t of dailyTemplates) {
+      const route = createdRoutes[t.rIdx];
+      const vehicle = createdVehicles[t.vIdx % createdVehicles.length];
+
+      const depTime = new Date(baseDate);
+      depTime.setDate(depTime.getDate() + day);
+      depTime.setHours(t.h, t.m, 0, 0);
+
+      const arrTime = new Date(depTime.getTime() + t.dur * 60 * 60 * 1000);
+
+      const trip = await prisma.trip.create({
+        data: {
+          routeId: route.id,
+          vehicleId: vehicle.id,
+          departureTime: depTime,
+          arrivalTime: arrTime,
+          priceUGX: t.price,
+          availableSeats: vehicle.totalSeats - 2,
+          status: TripStatus.SCHEDULED,
+        },
+      });
+      createdTrips.push(trip);
+    }
   }
 
-  console.log(`✅ Created ${createdTrips.length} scheduled bus trips.`);
+  console.log(`✅ Created ${createdTrips.length} scheduled bus trips over 30 days.`);
 
   // 5. Create Demo Booking with Seats & Digital Ticket for Customer
   const firstTrip = createdTrips[0];
   const vehicleSeats = await prisma.seat.findMany({ where: { vehicleId: firstTrip.vehicleId }, take: 2 });
 
   if (vehicleSeats.length >= 2) {
-    const bookingRef = 'MUST-8942-XJ';
+    const bookingRef = 'UG-8942-XJ';
     const totalFare = firstTrip.priceUGX * 2;
 
     const booking = await prisma.booking.create({
@@ -201,15 +219,15 @@ async function main() {
           create: [
             {
               seatId: vehicleSeats[0].id,
-              fullName: 'Ikayo Emmanuel',
+              fullName: 'Emmanuel Mugisha',
               phone: '+256701234567',
-              email: 'student@must.ac.ug',
+              email: 'passenger@travel.ug',
             },
             {
               seatId: vehicleSeats[1].id,
-              fullName: 'Atukwase Godson',
+              fullName: 'Godson Atukwase',
               phone: '+256779876543',
-              email: 'godson@must.ac.ug',
+              email: 'passenger2@travel.ug',
             },
           ],
         },
@@ -223,8 +241,8 @@ async function main() {
         },
         ticket: {
           create: {
-            ticketCode: 'TKT-MUST-8942',
-            qrData: JSON.stringify({ ref: bookingRef, passenger: 'Ikayo Emmanuel', route: 'Kampala -> Mbarara' }),
+            ticketCode: 'TKT-UG-8942',
+            qrData: JSON.stringify({ ref: bookingRef, passenger: 'Emmanuel Mugisha', route: 'Kampala -> Mbarara' }),
           },
         },
       },

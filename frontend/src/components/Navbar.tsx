@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
             </div>
             <div>
               <span className="font-semibold text-lg tracking-tight text-slate-900 flex items-center gap-1 font-mono leading-none">
-                MUST<span className="text-blue-700"> Express</span>
+                UG<span className="text-blue-700"> Express</span>
               </span>
               <span className="text-[9px] text-slate-500 uppercase tracking-wider block font-normal mt-0.5">
                 Uganda Intercity Bus Network

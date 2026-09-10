@@ -20,6 +20,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "cd backend && tsx watch src/server.ts",
+    "start": "cd backend && tsx src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

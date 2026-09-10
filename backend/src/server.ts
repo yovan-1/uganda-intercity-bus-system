@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import authRoutes from './routes/authRoutes';
 import tripRoutes from './routes/tripRoutes';
 import vehicleRoutes from './routes/vehicleRoutes';
@@ -20,6 +21,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Serve vanilla HTML5, CSS3 & JavaScript frontend
+const publicPath = path.join(__dirname, '../../public');
+app.use(express.static(publicPath));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trips', tripRoutes);
@@ -32,13 +37,13 @@ app.use('/api/admin', adminRouter);
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
-    system: 'Mbarara University Digital Travel Reservation API',
-    institution: 'Mbarara University of Science and Technology (MUST)',
+    system: 'Uganda Intercity Digital Coach Travel Reservation API',
     timestamp: new Date().toISOString(),
   });
 });
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 MUST Bus Travel Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Uganda Bus Travel Backend running on http://localhost:${PORT}`);
 });
+
